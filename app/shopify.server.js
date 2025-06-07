@@ -35,20 +35,30 @@ export const registerWebhooks = shopify.registerWebhooks;
 export const sessionStorage = shopify.sessionStorage;
 
 afterAuth: async ({ session, admin }) => {
-  const existingScripts = await admin.rest.resources.ScriptTag.all({ session });
-  const alreadyExists = existingScripts.data.some(script =>
-    script.src.includes("pulpoar-try-on-js")
-  );
+  try {
+    const existingScripts = await admin.rest.resources.ScriptTag.all({ session });
 
-  if (!alreadyExists) {
-    await admin.rest.resources.ScriptTag.create({
-      session,
-      body: {
-        event: "onload",
-        src: "https://cdn.jsdelivr.net/gh/serkanakyol/pulpoar-try-on-js/pulpoar-try-on.js"
-      },
-    });
+    const alreadyExists = existingScripts.data.some(script =>
+      script.src.includes("pulpoar-try-on-js")
+    );
+
+    if (!alreadyExists) {
+      await admin.rest.resources.ScriptTag.create({
+        session,
+        body: {
+          event: "onload",
+          src: "https://cdn.jsdelivr.net/gh/serkanakyol/pulpoar-try-on-js/pulpoar-try-on.js",
+        },
+      });
+
+      console.log("✅ ScriptTag başarıyla eklendi");
+    } else {
+      console.log("ℹ️ ScriptTag zaten var, yeniden eklenmedi");
+    }
+  } catch (error) {
+    console.error("❌ ScriptTag eklenirken hata:", error);
   }
 
-  return "/app"; // veya senin yönlendirdiğin path
-}
+  return "/app"; // varsa senin redirect ettiğin path
+};
+

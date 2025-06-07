@@ -2,7 +2,7 @@
   "name": "pulpoar-try-on",
   "private": true,
   "scripts": {
-    "build": "node node_modules/@remix-run/dev/dist/cli.js build",
+    "build": "remix build",
     "dev": "shopify app dev",
     "config:link": "shopify app config link",
     "generate": "shopify app generate",

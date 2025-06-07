@@ -8,7 +8,7 @@ import {
 
 import { AppProvider } from "@shopify/polaris";
 
-import enTranslations from './locales/en.json' with { type: 'json' };
+import enTranslations from './locales/en.json';
 
 export default function App() {
   return (

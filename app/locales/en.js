@@ -1,0 +1,39 @@
+export default {
+  Polaris: {
+    Avatar: {
+      label: "Avatar",
+      labelWithInitials: "Avatar with initials {initials}"
+    },
+    ContextualSaveBar: {
+      save: "Save",
+      discard: "Discard"
+    },
+    TextField: {
+      characterCount: "{count} characters",
+      enterPassword: "Enter password",
+      hidePassword: "Hide password",
+      showPassword: "Show password"
+    },
+    TopBar: {
+      toggleMenuLabel: "Toggle menu",
+      SearchField: {
+        clearButtonLabel: "Clear",
+        search: "Search"
+      }
+    },
+    Pagination: {
+      previous: "Previous",
+      next: "Next"
+    },
+    Modal: {
+      iFrameTitle: "Content frame",
+      close: "Close"
+    },
+    Frame: {
+      skipToContent: "Skip to content",
+      Navigation: {
+        closeMobileNavigationLabel: "Close navigation"
+      }
+    }
+  }
+};

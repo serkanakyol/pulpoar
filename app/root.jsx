@@ -4,14 +4,15 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
-  AppProvider
-} from "@shopify/polaris";
+} from "@remix-run/react";
+
+import { AppProvider } from "@shopify/polaris";
 
 import enTranslations from "./locales/en";
 
 export default function App() {
   return (
-    <html>
+    <html lang="en">
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />

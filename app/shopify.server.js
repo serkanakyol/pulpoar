@@ -33,3 +33,22 @@ export const unauthenticated = shopify.unauthenticated;
 export const login = shopify.login;
 export const registerWebhooks = shopify.registerWebhooks;
 export const sessionStorage = shopify.sessionStorage;
+
+afterAuth: async ({ session, admin }) => {
+  const existingScripts = await admin.rest.resources.ScriptTag.all({ session });
+  const alreadyExists = existingScripts.data.some(script =>
+    script.src.includes("pulpoar-try-on-js")
+  );
+
+  if (!alreadyExists) {
+    await admin.rest.resources.ScriptTag.create({
+      session,
+      body: {
+        event: "onload",
+        src: "https://cdn.jsdelivr.net/gh/serkanakyol/pulpoar-try-on-js/pulpoar-try-on.js"
+      },
+    });
+  }
+
+  return "/app"; // veya senin yönlendirdiğin path
+}

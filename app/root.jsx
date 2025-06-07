@@ -4,7 +4,9 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
-} from "@remix-run/react";
+} from "@shopify/polaris";
+
+import enTranslations from "@shopify/polaris/locales/en.json" assert { type: "json" };
 
 export default function App() {
   return (

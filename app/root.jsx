@@ -4,9 +4,10 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  AppProvider
 } from "@shopify/polaris";
 
-import enTranslations from "@shopify/polaris/locales/en.json" assert { type: "json" };
+import enTranslations from "~/locales/en";
 
 export default function App() {
   return (
@@ -23,7 +24,9 @@ export default function App() {
         <Links />
       </head>
       <body>
-        <Outlet />
+        <AppProvider i18n={enTranslations}>
+          <Outlet />
+        </AppProvider>
         <ScrollRestoration />
         <Scripts />
       </body>

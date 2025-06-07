@@ -3,7 +3,7 @@
 client_id = "f234cdf6be463ed64055dd49b74769b1"
 name = "pulpoar-try-on"
 handle = "pulpoar-try-on"
-application_url = "https://bulgaria-ment-bull-mounted.trycloudflare.com"
+application_url = "https://exactly-market-avoiding-dns.trycloudflare.com"
 embedded = true
 
 [build]
@@ -27,9 +27,9 @@ scopes = "write_products"
 
 [auth]
 redirect_urls = [
-  "https://bulgaria-ment-bull-mounted.trycloudflare.com/auth/callback",
-  "https://bulgaria-ment-bull-mounted.trycloudflare.com/auth/shopify/callback",
-  "https://bulgaria-ment-bull-mounted.trycloudflare.com/api/auth/callback"
+  "https://exactly-market-avoiding-dns.trycloudflare.com/auth/callback",
+  "https://exactly-market-avoiding-dns.trycloudflare.com/auth/shopify/callback",
+  "https://exactly-market-avoiding-dns.trycloudflare.com/api/auth/callback"
 ]
 
 [pos]

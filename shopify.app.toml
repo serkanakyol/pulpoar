@@ -1,36 +1,23 @@
 # Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
 
-client_id = "f234cdf6be463ed64055dd49b74769b1"
+client_id = "c45624e6b95f4d8fe4fdfdbe4c958b31"
 name = "pulpoar-try-on"
 handle = "pulpoar-try-on"
-application_url = "https://pulpoar.onrender.com"
+application_url = "https://pulpoar.onrender.com/"
 embedded = true
 
 [build]
 include_config_on_deploy = true
-automatically_update_urls_on_dev = true
 
 [webhooks]
 api_version = "2025-04"
-
-  [[webhooks.subscriptions]]
-  topics = [ "app/uninstalled" ]
-  uri = "/webhooks/app/uninstalled"
-
-  [[webhooks.subscriptions]]
-  topics = [ "app/scopes_update" ]
-  uri = "/webhooks/app/scopes_update"
 
 [access_scopes]
 # Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
 scopes = "write_products"
 
 [auth]
-redirect_urls = [
-  "https://pulpoar.onrender.com/auth/callback",
-  "https://pulpoar.onrender.com/auth/shopify/callback",
-  "https://pulpoar.onrender.com/api/auth/callback"
-]
+redirect_urls = [ "https://pulpoar.onrender.com/api/auth" ]
 
 [pos]
 embedded = false

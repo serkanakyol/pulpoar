@@ -10,8 +10,8 @@ export default {
   ignoredRouteFiles: ["**/.*"],
   appDirectory: "app",
   serverModuleFormat: "esm",
-  serverBuildPath: "build/index.mjs",
-  serverBuildTarget: "node",
+  serverBuildPath: "build/index.js",
+  serverBuildTarget: "node-cjs",
   dev: { port: process.env.HMR_SERVER_PORT || 8002 },
   future: {},
 };

@@ -71,17 +71,11 @@ export default function Index() {
   };
 
   async function handleRemove() {
-    setRemoving(true);
-    try {
-      const res = await fetch("/api/remove-script", { method: "POST" });
+    setLoading(true);
+    const res = await fetch("/api/remove-script", { method: "POST" });
     const data = await res.json();
     if (data.success) setInstalled(false);
     setLoading(false);
-    } catch (err) {
-      console.error("Script silme hatası:", err);
-    } finally {
-      setRemoving(false);
-    }
   }
 
   const isLoading =

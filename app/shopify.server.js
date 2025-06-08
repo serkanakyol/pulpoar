@@ -4,6 +4,8 @@ import {
   AppDistribution,
   shopifyApp,
 } from "@shopify/shopify-app-remix/server";
+app.all("/auth/*", shopify.authenticate);
+app.all("/api/*", shopify.api);
 import { PrismaSessionStorage } from "@shopify/shopify-app-session-storage-prisma";
 import prisma from "./db.server";
 import { createScriptTag } from "./utils/createScriptTag";

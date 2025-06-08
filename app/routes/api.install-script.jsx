@@ -1,11 +1,10 @@
 import { json } from "@remix-run/node";
-import { useLoaderData, Form } from "@remix-run/react";
 import { authenticate } from "../shopify.server";
 import { buildPulpoarScriptUrl } from "../utils/pulpoar";
 
 export async function action({ request }) {
   const { admin } = await authenticate.admin(request);
-  const buildPulpoarScriptUrl = buildPulpoarScriptUrl();
+  const scriptUrl = buildPulpoarScriptUrl();
 
   const mutation = `
     mutation scriptTagCreate($input: ScriptTagInput!) {
@@ -25,7 +24,7 @@ export async function action({ request }) {
 
   const variables = {
     input: {
-      src: { buildPulpoarScriptUrl },
+      src: { scriptUrl },
       displayScope: "ALL",
     },
   };

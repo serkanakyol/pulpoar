@@ -55,8 +55,10 @@ export default function Index() {
   const [selected, setSelected] = useState(0);
   const [installed, setInstalled] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [removing, setRemoving] = useState(false);
   const fetcher = useFetcher();
   const shopify = useAppBridge();
+
   const handleInstall = async () => {
     setLoading(true);
     const res = await fetch("/api/install-script", { method: "POST" });
@@ -66,6 +68,22 @@ export default function Index() {
     }
     setLoading(false);
   };
+
+  async function handleRemove() {
+    setRemoving(true);
+    try {
+      const res = await fetch("/api/remove-script", { method: "POST" });
+      const json = await res.json();
+      if (json.success) {
+        setInstalled(false);
+      }
+    } catch (err) {
+      console.error("Script silme hatası:", err);
+    } finally {
+      setRemoving(false);
+    }
+  }
+
   const isLoading =
     ["loading", "submitting"].includes(fetcher.state) &&
     fetcher.formMethod === "POST";
@@ -112,6 +130,15 @@ export default function Index() {
             <Button onClick={handleInstall} loading={loading} disabled={installed} variant={installed ? "success" : "primary"} >
               {installed ? "Yüklendi" : "Install Script"}
             </Button>
+          {installed && (
+            <Button
+              onClick={handleRemove}
+              variant="destructive"
+              loading={removing}
+            >
+              Script'i Kaldır
+            </Button>
+          )}
           </Box>
         </div>
       </Card>

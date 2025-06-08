@@ -73,10 +73,15 @@ export default function Index() {
     ),
     1: (
       <Card sectioned>
-        <TextContainer>
-          <p>This is the setup tab. You can install your script here.</p>
-          {/* Buraya buton eklersin */}
-        </TextContainer>
+        <BlockStack gap="400">
+          <Box padding="400" background="bg-surface" borderRadius="200">
+            <Text as="h2" variant="headingMd">
+              Script Kurulumu
+            </Text>
+            <Text>Script'i Storefront'a eklemek için aşağıdaki butonu tıklayın.</Text>
+            <Button onClick={() => alert("Script yüklendi!")}>Install Script</Button>
+          </Box>
+        </BlockStack>
       </Card>
     ),
     2: (

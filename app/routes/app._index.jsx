@@ -36,7 +36,7 @@ export default function Index() {
   const shopify = useAppBridge();
   const handleInstall = async () => {
     setLoading(true);
-    const res = await fetch("/api/install-script", { method: "POST" });
+    const res = await fetch("/app/api/install-script", { method: "POST" });
 
     if (res.ok) {
       setInstalled(true);

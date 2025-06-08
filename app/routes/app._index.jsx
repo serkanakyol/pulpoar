@@ -55,20 +55,18 @@ export const action = async ({ request }) => {
 
 export default function Index() {
 
+  const { scriptTagInstalled } = useLoaderData();
   const [selected, setSelected] = useState(0);
   const [installed, setInstalled] = useState(scriptTagInstalled);
   const [loading, setLoading] = useState(false);
-  const [removing, setRemoving] = useState(false);
   const fetcher = useFetcher();
   const shopify = useAppBridge();
 
   const handleInstall = async () => {
     setLoading(true);
     const res = await fetch("/api/install-script", { method: "POST" });
-
-    if (res.ok) {
-      setInstalled(true);
-    }
+    const data = await res.json();
+    setInstalled(data.success);
     setLoading(false);
   };
 
@@ -76,10 +74,9 @@ export default function Index() {
     setRemoving(true);
     try {
       const res = await fetch("/api/remove-script", { method: "POST" });
-      const json = await res.json();
-      if (json.success) {
-        setInstalled(false);
-      }
+    const data = await res.json();
+    if (data.success) setInstalled(false);
+    setLoading(false);
     } catch (err) {
       console.error("Script silme hatası:", err);
     } finally {
@@ -137,7 +134,7 @@ export default function Index() {
             <Button
               onClick={handleRemove}
               variant="destructive"
-              loading={removing}
+              loading={loading}
             >
               Script'i Kaldır
             </Button>

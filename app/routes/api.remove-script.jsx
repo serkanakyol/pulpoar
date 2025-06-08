@@ -25,11 +25,12 @@ export async function action({ request }) {
     const jsonResponse = await gqlResponse.json();
 
     const scriptUrl = buildPulpoarScriptUrl();
-
+console.log(scriptUrl);
+console.log(jsonResponse.data.scriptTags.edges);
     const matchingTags = jsonResponse.data.scriptTags.edges.filter((edge) =>
       edge.node.src.startsWith(scriptUrl)
     );
-
+console.log(matchingTags);
     if (matchingTags.length === 0) {
       return json({ success: false, message: "Script bulunamadı." }, { status: 404 });
     }
@@ -48,7 +49,7 @@ export async function action({ request }) {
           }
         }
       `;
-
+console.log(tag.node.id);
       const deleteResponse = await admin.graphql(deleteMutation, {
         variables: { id: tag.node.id },
       });

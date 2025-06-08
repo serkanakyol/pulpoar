@@ -8,7 +8,7 @@ export async function action({ request }) {
 
   const query = `
     query {
-      scriptTags(first: 10) {
+      scriptTags(first: 50) {
         edges {
           node {
             id
@@ -19,47 +19,65 @@ export async function action({ request }) {
     }
   `;
 
+
   try {
     const gqlResponse = await admin.graphql(query);
     const jsonResponse = await gqlResponse.json();
 console.log(scriptUrl);
 console.log(jsonResponse.data.scriptTags.edges);
-    const existingTag = jsonResponse.data.scriptTags.edges.find((edge) =>
-      edge.node.src === scriptUrl
+    const matchingTags = jsonResponse.data.scriptTags.edges.filter(
+      (edge) => edge.node.src === scriptUrl
     );
-console.log(existingTag);
-    if (!existingTag) {
+console.log("Matching Tags:", matchingTags);
+
+    if (matchingTags.length === 0) {
       return json({ success: false, message: "Script bulunamadı." }, { status: 404 });
     }
 
-    const deleteMutation = `
-      mutation scriptTagDelete($id: ID!) {
-        scriptTagDelete(id: $id) {
-          deletedScriptTagId
-          userErrors {
-            field
-            message
+    const deletionResults = [];
+
+    for (const tag of matchingTags) {
+      const deleteMutation = `
+        mutation scriptTagDelete($id: ID!) {
+          scriptTagDelete(id: $id) {
+            deletedScriptTagId
+            userErrors {
+              field
+              message
+            }
           }
         }
+      `;
+
+      const deleteResponse = await admin.graphql(deleteMutation, {
+        variables: { id: tag.node.id },
+      });
+
+      const deleteJson = await deleteResponse.json();
+
+      if (deleteJson.data.scriptTagDelete.userErrors.length > 0) {
+        deletionResults.push({
+          id: tag.node.id,
+          success: false,
+          errors: deleteJson.data.scriptTagDelete.userErrors,
+        });
+      } else {
+        deletionResults.push({
+          id: tag.node.id,
+          success: true,
+        });
       }
-    `;
-
-    const deleteResponse = await admin.graphql(deleteMutation, {
-      variables: { id: existingTag.node.id },
-    });
-
-    const deleteJson = await deleteResponse.json();
-
-    if (deleteJson.data.scriptTagDelete.userErrors.length > 0) {
-      return json(
-        { success: false, errors: deleteJson.data.scriptTagDelete.userErrors },
-        { status: 400 }
-      );
     }
 
-    return json({ success: true });
+    const allSuccessful = deletionResults.every((r) => r.success);
+
+    return json({
+      success: allSuccessful,
+      deleted: deletionResults,
+    });
+
   } catch (error) {
-    console.error("Script silme hatası:", error);
-    return json({ success: false, error: error.message }, { status: 500 });
+     console.error("Script silme hatası:", error);
+     return json({ success: false, error: error.message }, { status: 500 });
   }
 }

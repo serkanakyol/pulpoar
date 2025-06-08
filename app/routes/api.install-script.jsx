@@ -24,7 +24,7 @@ export async function action({ request }) {
 
   const variables = {
     input: {
-      src: { scriptUrl },
+      src: scriptUrl,
       displayScope: "ALL",
     },
   };

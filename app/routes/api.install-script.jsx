@@ -5,12 +5,14 @@ export async function action({ request }) {
 
   const scriptTag = {
     script_tag: {
+      session: admin.session,
       event: "onload",
       src: "https://cdn.jsdelivr.net/gh/serkanakyol/pulpoar-try-on-js/pulpoar-try-on.js",
     },
   };
 
   try {
+    console.log("ScriptTag resource:", admin.rest);
     console.log("ScriptTag resource:", admin.rest.ScriptTag);
     const response = await admin.rest.ScriptTag.create({
       body: scriptTag,

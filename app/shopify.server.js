@@ -6,6 +6,7 @@ import {
 } from "@shopify/shopify-app-remix/server";
 import { PrismaSessionStorage } from "@shopify/shopify-app-session-storage-prisma";
 import prisma from "./db.server";
+import { shopifyApi } from "@shopify/shopify-api";
 
 const shopify = shopifyApp({
   apiKey: process.env.SHOPIFY_API_KEY,
@@ -23,6 +24,13 @@ const shopify = shopifyApp({
   ...(process.env.SHOP_CUSTOM_DOMAIN
     ? { customShopDomains: [process.env.SHOP_CUSTOM_DOMAIN] }
     : {}),
+
+  hooks: {
+    afterAuth: async ({ session }) => {
+      console.log("🛠 afterAuth: ScriptTag ekleniyor...");
+      await createScriptTag(session); // bu fonksiyonu yukarıda anlattık
+    },
+  },
 });
 
 export default shopify;
@@ -34,31 +42,35 @@ export const login = shopify.login;
 export const registerWebhooks = shopify.registerWebhooks;
 export const sessionStorage = shopify.sessionStorage;
 
-afterAuth: async ({ session, admin }) => {
-  try {
-    const existingScripts = await admin.rest.resources.ScriptTag.all({ session });
+async function createScriptTag(session) {
+  const client = new shopifyApi.clients.Rest({ session });
 
-    const alreadyExists = existingScripts.data.some(script =>
-      script.src.includes("pulpoar-try-on-js")
+  try {
+    const existing = await client.get({ path: "script_tags" });
+
+    const alreadyExists = existing.body?.script_tags?.some(
+      (tag) =>
+        tag.src ===
+        "https://cdn.jsdelivr.net/gh/serkanakyol/pulpoar-try-on-js/pulpoar-try-on.js"
     );
 
     if (!alreadyExists) {
-      await admin.rest.resources.ScriptTag.create({
-        session,
-        body: {
-          event: "onload",
-          src: "https://cdn.jsdelivr.net/gh/serkanakyol/pulpoar-try-on-js/pulpoar-try-on.js",
+      await client.post({
+        path: "script_tags",
+        data: {
+          script_tag: {
+            event: "onload",
+            src: "https://cdn.jsdelivr.net/gh/serkanakyol/pulpoar-try-on-js/pulpoar-try-on.js",
+          },
         },
+        type: "application/json",
       });
 
-      console.log("✅ ScriptTag başarıyla eklendi");
+      console.log("✅ ScriptTag başarıyla eklendi.");
     } else {
-      console.log("ℹ️ ScriptTag zaten var, yeniden eklenmedi");
+      console.log("ℹ️ ScriptTag zaten var.");
     }
   } catch (error) {
-    console.error("❌ ScriptTag eklenirken hata:", error);
+    console.error("❌ ScriptTag eklenemedi:", error);
   }
-
-  return "/app"; // varsa senin redirect ettiğin path
-};
-
+}

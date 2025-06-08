@@ -1,7 +1,7 @@
 import { json } from "@remix-run/node";
 import { useLoaderData, Form } from "@remix-run/react";
 import { authenticate } from "../shopify.server";
-import { buildPulpoarScriptUrl } from "../utils/pulpoar";
+import { buildPulpoarScriptUrl } from "../pulpoar";
 
 export async function loader({ request }) {
   const { admin } = await authenticate.admin(request);

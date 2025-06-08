@@ -18,7 +18,6 @@ import { buildPulpoarScriptUrl } from "../utils/pulpoar";
 
 export const loader = async ({ request }) => {
   await authenticate.admin(request);
-  const shop = session.shop;
   const scriptUrl = buildPulpoarScriptUrl();
 
   const query = `

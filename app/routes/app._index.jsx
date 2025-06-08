@@ -1,5 +1,4 @@
 import { useEffect, useState, useCallback } from "react";
-import { useFetcher } from "@remix-run/react";
 import {
   Page,
   Layout,
@@ -13,12 +12,37 @@ import {
   Link
 } from "@shopify/polaris";
 import { TitleBar, useAppBridge } from "@shopify/app-bridge-react";
+import { useLoaderData, useFetcher } from "@remix-run/react";
 import { authenticate } from "../shopify.server";
+import { buildPulpoarScriptUrl } from "../utils/pulpoar";
 
 export const loader = async ({ request }) => {
   await authenticate.admin(request);
+  const shop = session.shop;
+  const scriptUrl = buildPulpoarScriptUrl();
 
-  return null;
+  const query = `
+    query ScriptTags($src: URL) {
+      scriptTags(first: 1, src: $src) {
+        edges {
+          node {
+            id
+            src
+          }
+        }
+      }
+    }
+  `;
+
+   const response = await admin.graphql(query, {
+     variables: { src: scriptUrl },
+   });
+
+
+  const result = await response.json();
+  const installed = result?.data?.scriptTags?.edges?.length > 0;
+
+  return json({ scriptTagInstalled: installed });
 };
 
 export const action = async ({ request }) => {
@@ -85,7 +109,7 @@ export default function Index() {
               Script Kurulumu
             </Text>
             <Text>Script'i Storefront'a eklemek için aşağıdaki butonu tıklayın.</Text>
-            <Button onClick={handleInstall} loading={loading} disabled={installed}>
+            <Button onClick={handleInstall} loading={loading} disabled={installed} variant={installed ? "success" : "primary"} >
               {installed ? "Yüklendi" : "Install Script"}
             </Button>
           </Box>

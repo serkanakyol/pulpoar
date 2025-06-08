@@ -1,5 +1,4 @@
-// app/routes/api/install-script.jsx
-import { authenticate } from "~/shopify.server";
+import { authenticate } from "../shopify.server";
 
 export async function action({ request }) {
   const { admin } = await authenticate.admin(request);

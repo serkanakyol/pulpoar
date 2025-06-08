@@ -23,12 +23,12 @@ export async function action({ request }) {
   try {
     const gqlResponse = await admin.graphql(query);
     const jsonResponse = await gqlResponse.json();
-console.log(scriptUrl);
-console.log(jsonResponse.data.scriptTags.edges);
-    const matchingTags = jsonResponse.data.scriptTags.edges.filter(
-      (edge) => edge.node.src === scriptUrl
+
+    const scriptUrl = buildPulpoarScriptUrl();
+
+    const matchingTags = jsonResponse.data.scriptTags.edges.filter((edge) =>
+      edge.node.src.startsWith(scriptUrl)
     );
-console.log("Matching Tags:", matchingTags);
 
     if (matchingTags.length === 0) {
       return json({ success: false, message: "Script bulunamadı." }, { status: 404 });
@@ -53,20 +53,13 @@ console.log("Matching Tags:", matchingTags);
         variables: { id: tag.node.id },
       });
 
-      const deleteJson = await deleteResponse.json();
+        const deleteJson = await deleteResponse.json();
 
-      if (deleteJson.data.scriptTagDelete.userErrors.length > 0) {
-        deletionResults.push({
-          id: tag.node.id,
-          success: false,
-          errors: deleteJson.data.scriptTagDelete.userErrors,
-        });
-      } else {
-        deletionResults.push({
-          id: tag.node.id,
-          success: true,
-        });
-      }
+        if (deleteJson.data.scriptTagDelete.userErrors.length > 0) {
+          console.error("Silme hatası:", deleteJson.data.scriptTagDelete.userErrors);
+        } else {
+          console.log(`Silindi: ${tag.node.id}`);
+        }
     }
 
     const allSuccessful = deletionResults.every((r) => r.success);

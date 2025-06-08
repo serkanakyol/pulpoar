@@ -1,4 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
+import { useLocation, useNavigate, Outlet } from "@remix-run/react";
 import { useFetcher } from "@remix-run/react";
 import {
   Page,
@@ -40,62 +41,30 @@ export default function Index() {
     ["loading", "submitting"].includes(fetcher.state) &&
     fetcher.formMethod === "POST";
 
-  const handleTabChange = useCallback((selectedTabIndex) => {
-    setSelected(selectedTabIndex);
-  }, []);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const selectedTab = tabs.findIndex(tab =>
+    location.pathname.startsWith(tab.href)
+  );
+  const handleTabChange = (selectedIndex) => {
+    navigate(tabs[selectedIndex].href);
+  };
 
   const tabs = [
-    {
-      id: "overview",
-      content: "Overview",
-      accessibilityLabel: "Overview tab",
-      panelID: "overview-content",
-    },
-    {
-      id: "setup",
-      content: "Setup",
-      panelID: "setup-content",
-    },
-    {
-      id: "support",
-      content: "Support",
-      panelID: "support-content",
-    },
+    { id: "overview", content: "Overview", href: "/admin/overview" },
+    { id: "setup", content: "Setup", href: "/admin/setup" },
+    { id: "support", content: "Support", href: "/admin/support" },
   ];
-
-  const tabContent = {
-    0: (
-      <Card sectioned>
-        <TextContainer>
-          <p>This is the overview tab content.</p>
-        </TextContainer>
-      </Card>
-    ),
-    1: (
-      <Card sectioned>
-        <TextContainer>
-          <p>This is the setup tab. You can install your script here.</p>
-          {/* Buraya buton eklersin */}
-        </TextContainer>
-      </Card>
-    ),
-    2: (
-      <Card sectioned>
-        <TextContainer>
-          <p>This is the support tab. Contact us at support@example.com.</p>
-        </TextContainer>
-      </Card>
-    ),
-  };
 
   return (
     <Page title="PulPoar DashBoard" fullWidth>
       <TitleBar title="PulPoar DashBoard" />
       <Layout>
         <Layout.Section>
-          <Tabs tabs={tabs} selected={selected} onSelect={handleTabChange}>
-            {tabContent[selected]}
-          </Tabs>
+        <Tabs tabs={tabs} selected={selectedTab} onSelect={handleTabChange} />
+        <div style={{ padding: "20px" }}>
+          <Outlet />
+        </div>
         </Layout.Section>
       </Layout>
     </Page>

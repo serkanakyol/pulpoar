@@ -27,7 +27,7 @@ console.log(jsonResponse.data.scriptTags.edges);
     const existingTag = jsonResponse.data.scriptTags.edges.find((edge) =>
       edge.node.src === scriptUrl
     );
-
+console.log(existingTag);
     if (!existingTag) {
       return json({ success: false, message: "Script bulunamadı." }, { status: 404 });
     }

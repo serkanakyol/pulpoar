@@ -38,7 +38,7 @@ export const loader = async ({ request }) => {
     const scriptUrl = process.env.PULPOAR_SCRIPT_BASE_URL || "";
 
     const matchingTags = jsonResponse.data.scriptTags.edges.filter((edge) =>
-      edge.node.src.startsWith(scriptUrl)
+      edge.node.src.includes('pulpoar-try-on')
     );
 
     if(matchingTags)

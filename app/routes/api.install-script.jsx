@@ -1,27 +1,46 @@
 import { authenticate } from "../shopify.server";
 
 export async function action({ request }) {
-
   const { admin } = await authenticate.admin(request);
 
-  const scriptTag = {
-    script_tag: {
-      session: admin.session,
-      event: "onload",
+  const mutation = `
+    mutation scriptTagCreate($input: ScriptTagInput!) {
+      scriptTagCreate(input: $input) {
+        scriptTag {
+          id
+          src
+          displayScope
+        }
+        userErrors {
+          field
+          message
+        }
+      }
+    }
+  `;
+
+  const variables = {
+    input: {
       src: "https://cdn.jsdelivr.net/gh/serkanakyol/pulpoar-try-on-js/pulpoar-try-on.js",
+      displayScope: "ALL",
     },
   };
 
   try {
-    console.log("ScriptTag resource:", admin.rest);
-    console.log("ScriptTag resource:", admin.rest.resources.ScriptTag);
+    const response = await admin.graphql(mutation, { variables });
+    const result = await response.json();
 
-    return new Response(JSON.stringify({ success: true, id: response?.body?.script_tag?.id }), {
+    const errors = result.data.scriptTagCreate.userErrors;
+    if (errors.length) {
+      console.error("GraphQL User Errors:", errors);
+      return new Response(JSON.stringify({ success: false, errors }), { status: 400 });
+    }
+
+    return new Response(JSON.stringify({ success: true, scriptTag: result.data.scriptTagCreate.scriptTag }), {
       status: 200,
     });
-
-  } catch (err) {
-    console.error("ScriptTag API Error", err);
-    return new Response(JSON.stringify({ success: false }), { status: 500 });
+  } catch (error) {
+    console.error("GraphQL ScriptTag Error:", error);
+    return new Response(JSON.stringify({ success: false, error }), { status: 500 });
   }
 }

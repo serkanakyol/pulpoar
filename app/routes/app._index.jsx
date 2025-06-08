@@ -89,7 +89,7 @@ export default function Index() {
   };
 
   return (
-    <Page>
+    <Page title="PulPoar DashBoard" fullWidth>
       <TitleBar title="PulPoar DashBoard" />
       <Layout>
         <Layout.Section>

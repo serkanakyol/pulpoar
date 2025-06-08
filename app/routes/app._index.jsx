@@ -21,8 +21,8 @@ export const loader = async ({ request }) => {
   const scriptUrl = buildPulpoarScriptUrl();
 
   const query = `
-    query ScriptTags($src: URL) {
-      scriptTags(first: 1, src: $src) {
+    query {
+      scriptTags(first: 10) {
         edges {
           node {
             id
@@ -33,12 +33,12 @@ export const loader = async ({ request }) => {
     }
   `;
 
-   const response = await admin.graphql(query, {
-     variables: { src: scriptUrl },
-   });
-
+  const response = await admin.graphql(query);
   const result = await response.json();
-  const installed = result?.data?.scriptTags?.edges?.length > 0;
+
+  const installed = result?.data?.scriptTags?.edges?.some(
+    (edge) => edge.node.src === scriptUrl
+  );
 
   return json({ scriptTagInstalled: installed });
 };

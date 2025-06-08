@@ -28,7 +28,8 @@ const shopify = shopifyApp({
   hooks: {
     afterAuth: async ({ session }) => {
       console.log("🛠 afterAuth: ScriptTag ekleniyor...");
-      await createScriptTag(session);
+    await createScriptTag(session); // Burada çağır
+    await shopify.registerWebhooks({ session });
     },
   },
 });

@@ -1,20 +1,20 @@
-import { ScriptTag } from "@shopify/shopify-api/rest/admin/2024-04";
-
 /**
  * Shopify mağazasına CDN üzerinden bir script yükler.
  *
  * @param {Session} session - Shopify oturum nesnesi (afterAuth'tan alınır)
  */
 export async function createScriptTag(session) {
-  const existingScripts = await ScriptTag.all({ session });
+  const existingScripts = await shopify.rest.ScriptTag.all({ session });
 
   const targetSrc =
     "https://cdn.jsdelivr.net/gh/serkanakyol/pulpoar-try-on-js/pulpoar-try-on.js";
 
-  const alreadyExists = existingScripts.some((tag) => tag.src === targetSrc);
+  const alreadyExists = existingScripts.data?.some(
+    (tag) => tag.src === targetSrc
+  );
 
   if (!alreadyExists) {
-    await ScriptTag.create({
+    await shopify.rest.ScriptTag.create({
       session,
       event: "onload",
       src: targetSrc,

@@ -127,7 +127,7 @@ export default function Index() {
           {installed && (
             <Button
               onClick={handleRemove}
-              variant="destructive"
+              tone="critical"
               loading={loading}
             >
               Script'i Kaldır

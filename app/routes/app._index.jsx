@@ -15,6 +15,7 @@ import {
 import { TitleBar, useAppBridge } from "@shopify/app-bridge-react";
 import { useLoaderData, useFetcher } from "@remix-run/react";
 import { authenticate } from "../shopify.server";
+import ProductSelector from "../components/ProductSelector";
 
 export const loader = async ({ request }) => {
   const { admin } = await authenticate.admin(request);
@@ -94,6 +95,11 @@ export default function Index() {
       panelID: "overview-content",
     },
     {
+      id: "products",
+      content: "Products",
+      panelID: "product-content",
+    },
+    {
       id: "setup",
       content: "Setup",
       panelID: "setup-content",
@@ -114,6 +120,11 @@ export default function Index() {
       </Card>
     ),
     1: (
+    <Card sectioned>
+      <ProductSelector />
+    </Card>
+    ),
+    2: (
       <Card sectioned>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
           <Box padding="400" background="bg-surface" borderRadius="200">
@@ -141,7 +152,7 @@ export default function Index() {
         </div>
       </Card>
     ),
-    2: (
+    3: (
       <Card sectioned>
         <TextContainer>
           <p>This is the support tab. Contact us at support@example.com.</p>

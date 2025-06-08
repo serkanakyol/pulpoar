@@ -30,11 +30,19 @@ export const action = async ({ request }) => {
 export default function Index() {
 
   const [selected, setSelected] = useState(0);
-
+  const [installed, setInstalled] = useState(false);
+  const [loading, setLoading] = useState(false);
   const fetcher = useFetcher();
-
   const shopify = useAppBridge();
+  const handleInstall = async () => {
+    setLoading(true);
+    const res = await fetch("/api/install-script", { method: "POST" });
 
+    if (res.ok) {
+      setInstalled(true);
+    }
+    setLoading(false);
+  };
   const isLoading =
     ["loading", "submitting"].includes(fetcher.state) &&
     fetcher.formMethod === "POST";
@@ -78,7 +86,9 @@ export default function Index() {
               Script Kurulumu
             </Text>
             <Text>Script'i Storefront'a eklemek için aşağıdaki butonu tıklayın.</Text>
-            <Button onClick={() => alert("Script yüklendi!")}>Install Script</Button>
+            <Button onClick={handleInstall} loading={loading} disabled={installed}>
+              {installed ? "Yüklendi" : "Install Script"}
+            </Button>
           </Box>
         </div>
       </Card>

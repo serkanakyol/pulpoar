@@ -1,7 +1,19 @@
+import { shopifyApi } from "@shopify/shopify-api";
+import { restResources } from "@shopify/shopify-api/rest/admin/2025-01";
 import { authenticate } from "../shopify.server";
 
+const shopify = shopifyApi({
+  apiKey: process.env.SHOPIFY_API_KEY!,
+  apiSecretKey: process.env.SHOPIFY_API_SECRET!,
+  apiVersion: "2025-01",
+  restResources,
+});
+
 export async function action({ request }) {
-  const { admin } = await authenticate.admin(request);
+  const { session } = await authenticate.admin(request);
+  const admin = new shopify.clients.Rest({
+    session,
+  });
 
   const scriptTag = {
     script_tag: {
@@ -11,14 +23,15 @@ export async function action({ request }) {
     },
   };
 
+
   try {
-    console.log("ScriptTag resource:", admin.rest);
-    console.log("ScriptTag resource:", admin.rest.resources.ScriptTag);
-    const response = await admin.rest.resources.ScriptTag({
-      body: scriptTag,
+    const response = await admin.post({
+      path: "script_tags",
+      data: scriptTag,
+      type: "application/json",
     });
-console.log(response)
-    return new Response(JSON.stringify({ success: true, id: response.id }), {
+console.log(response);
+    return new Response(JSON.stringify({ success: true, id: response?.body?.script_tag?.id }), {
       status: 200,
     });
   } catch (err) {

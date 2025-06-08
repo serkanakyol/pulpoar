@@ -14,10 +14,10 @@ export async function action({ request }) {
   try {
     console.log("ScriptTag resource:", admin.rest);
     console.log("ScriptTag resource:", admin.rest.resources.ScriptTag);
-    const response = await admin.rest.resources.ScriptTag.create({
+    const response = await admin.rest.resources.ScriptTag({
       body: scriptTag,
     });
-
+console.log(response)
     return new Response(JSON.stringify({ success: true, id: response.id }), {
       status: 200,
     });

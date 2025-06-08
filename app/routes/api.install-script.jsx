@@ -3,8 +3,8 @@ import { restResources } from "@shopify/shopify-api/rest/admin/2025-01";
 import { authenticate } from "../shopify.server";
 
 const shopify = shopifyApi({
-  apiKey: process.env.SHOPIFY_API_KEY!,
-  apiSecretKey: process.env.SHOPIFY_API_SECRET!,
+  apiKey: process.env.SHOPIFY_API_KEY || "",
+  apiSecretKey: process.env.SHOPIFY_API_SECRET || "",
   apiVersion: "2025-01",
   restResources,
 });

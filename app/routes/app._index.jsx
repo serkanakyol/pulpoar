@@ -17,7 +17,7 @@ import { authenticate } from "../shopify.server";
 import { buildPulpoarScriptUrl } from "../utils/pulpoar";
 
 export const loader = async ({ request }) => {
-  await authenticate.admin(request);
+  const { admin } = await authenticate.admin(request);
   const scriptUrl = buildPulpoarScriptUrl();
 
   const query = `
@@ -36,7 +36,6 @@ export const loader = async ({ request }) => {
    const response = await admin.graphql(query, {
      variables: { src: scriptUrl },
    });
-
 
   const result = await response.json();
   const installed = result?.data?.scriptTags?.edges?.length > 0;

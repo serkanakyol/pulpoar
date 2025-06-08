@@ -30,7 +30,7 @@ export const action = async ({ request }) => {
 
 export default function Index() {
 
-  const [selected, setSelected] = useState('overview');
+  const [selected, setSelected] = useState(0);
 
   const fetcher = useFetcher();
 
@@ -64,14 +64,14 @@ export default function Index() {
   ];
 
   const tabContent = {
-    'overview': (
+    0: (
       <Card sectioned>
         <TextContainer>
           <p>This is the overview tab content.</p>
         </TextContainer>
       </Card>
     ),
-    'setup': (
+    1: (
       <Card sectioned>
         <TextContainer>
           <p>This is the setup tab. You can install your script here.</p>
@@ -79,7 +79,7 @@ export default function Index() {
         </TextContainer>
       </Card>
     ),
-    'support': (
+    2: (
       <Card sectioned>
         <TextContainer>
           <p>This is the support tab. Contact us at support@example.com.</p>

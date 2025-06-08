@@ -10,8 +10,7 @@ import {
   Button,
   Box,
   List,
-  Link,
-  InlineStack,
+  Link
 } from "@shopify/polaris";
 import { TitleBar, useAppBridge } from "@shopify/app-bridge-react";
 import { authenticate } from "../shopify.server";

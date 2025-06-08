@@ -1,4 +1,4 @@
-import { ScriptTag } from "@shopify/shopify-api/rest/admin/2025-04";
+import { ScriptTag } from "@shopify/shopify-api/rest/admin/2024-04";
 
 /**
  * Shopify mağazasına CDN üzerinden bir script yükler.

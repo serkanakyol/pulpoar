@@ -1,5 +1,4 @@
 import { useEffect, useState, useCallback } from "react";
-import { useLocation, useNavigate, Outlet } from "@remix-run/react";
 import { useFetcher } from "@remix-run/react";
 import {
   Page,
@@ -30,27 +29,63 @@ export const action = async ({ request }) => {
 };
 
 export default function Index() {
+
+  const [selected, setSelected] = useState(0);
+
   const fetcher = useFetcher();
+
   const shopify = useAppBridge();
 
   const isLoading =
     ["loading", "submitting"].includes(fetcher.state) &&
     fetcher.formMethod === "POST";
 
-  const location = useLocation();
-  const navigate = useNavigate();
+  const handleTabChange = useCallback((selectedTabIndex) => {
+    setSelected(selectedTabIndex);
+  }, []);
 
   const tabs = [
-    { id: "overview", content: "Overview", href: "/admin/overview" },
-    { id: "setup", content: "Setup", href: "/admin/setup" },
-    { id: "support", content: "Support", href: "/admin/support" },
+    {
+      id: "overview",
+      content: "Overview",
+      accessibilityLabel: "Overview tab",
+      panelID: "overview-content",
+    },
+    {
+      id: "setup",
+      content: "Setup",
+      panelID: "setup-content",
+    },
+    {
+      id: "support",
+      content: "Support",
+      panelID: "support-content",
+    },
   ];
 
-  const selectedTab = tabs.findIndex(tab =>
-    location.pathname.startsWith(tab.href)
-  );
-  const handleTabChange = (selectedIndex) => {
-    navigate(tabs[selectedIndex].href);
+  const tabContent = {
+    'overview': (
+      <Card sectioned>
+        <TextContainer>
+          <p>This is the overview tab content.</p>
+        </TextContainer>
+      </Card>
+    ),
+    'setup': (
+      <Card sectioned>
+        <TextContainer>
+          <p>This is the setup tab. You can install your script here.</p>
+          {/* Buraya buton eklersin */}
+        </TextContainer>
+      </Card>
+    ),
+    'support': (
+      <Card sectioned>
+        <TextContainer>
+          <p>This is the support tab. Contact us at support@example.com.</p>
+        </TextContainer>
+      </Card>
+    ),
   };
 
   return (
@@ -58,10 +93,9 @@ export default function Index() {
       <TitleBar title="PulPoar DashBoard" />
       <Layout>
         <Layout.Section>
-        <Tabs tabs={tabs} selected={selectedTab} onSelect={handleTabChange} />
-        <div style={{ padding: "20px" }}>
-          <Outlet />
-        </div>
+          <Tabs tabs={tabs} selected={selected} onSelect={handleTabChange}>
+            {tabContent[selected]}
+          </Tabs>
         </Layout.Section>
       </Layout>
     </Page>

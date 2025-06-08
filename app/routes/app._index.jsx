@@ -30,11 +30,7 @@ export const action = async ({ request }) => {
 };
 
 export default function Index() {
-
-  const [selected, setSelected] = useState(0);
-
   const fetcher = useFetcher();
-
   const shopify = useAppBridge();
 
   const isLoading =
@@ -43,18 +39,19 @@ export default function Index() {
 
   const location = useLocation();
   const navigate = useNavigate();
-  const selectedTab = tabs.findIndex(tab =>
-    location.pathname.startsWith(tab.href)
-  );
-  const handleTabChange = (selectedIndex) => {
-    navigate(tabs[selectedIndex].href);
-  };
 
   const tabs = [
     { id: "overview", content: "Overview", href: "/admin/overview" },
     { id: "setup", content: "Setup", href: "/admin/setup" },
     { id: "support", content: "Support", href: "/admin/support" },
   ];
+
+  const selectedTab = tabs.findIndex(tab =>
+    location.pathname.startsWith(tab.href)
+  );
+  const handleTabChange = (selectedIndex) => {
+    navigate(tabs[selectedIndex].href);
+  };
 
   return (
     <Page title="PulPoar DashBoard" fullWidth>

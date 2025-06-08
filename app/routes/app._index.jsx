@@ -30,7 +30,7 @@ export const action = async ({ request }) => {
 
 export default function Index() {
 
-  const [selected, setSelected] = useState(0);
+  const [selected, setSelected] = useState('overview');
 
   const fetcher = useFetcher();
 

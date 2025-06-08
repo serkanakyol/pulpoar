@@ -121,16 +121,20 @@ export default function Index() {
               Script Kurulumu
             </Text>
             <Text>Script'i Storefront'a eklemek için aşağıdaki butonu tıklayın.</Text>
-            <Button onClick={handleInstall} loading={loading} disabled={installed} variant={installed ? "success" : "primary"} >
-              {installed ? "Yüklendi" : "Install Script"}
+          {!installed && (
+            <Button
+              onClick={handleInstall}
+              loading={loading}
+            >
+              Install Script
             </Button>
+          )}
           {installed && (
             <Button
               onClick={handleRemove}
-              tone="critical"
               loading={loading}
             >
-              Script'i Kaldır
+              Remove Script
             </Button>
           )}
           </Box>

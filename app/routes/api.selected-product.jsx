@@ -1,6 +1,6 @@
 import { json } from "@remix-run/node";
 import { authenticate } from "../shopify.server";
-import { prisma } from "../db.server"; // örnek db instance
+import prisma from "../db.server";
 
 export const action = async ({ request }) => {
   const { admin, shop } = await authenticate.admin(request);

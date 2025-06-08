@@ -7,7 +7,7 @@ import {
 
 import { PrismaSessionStorage } from "@shopify/shopify-app-session-storage-prisma";
 import prisma from "./db.server";
-import { restResources } from "@shopify/shopify-api/rest/admin/2024-04";
+import { restResources } from "@shopify/shopify-api/rest/admin/2025-01";
 
 const shopify = shopifyApp({
   apiKey: process.env.SHOPIFY_API_KEY,
@@ -29,8 +29,6 @@ const shopify = shopifyApp({
 
   hooks: {
     afterAuth: async ({ session }) => {
-      console.log("🛠 afterAuth: ScriptTag ekleniyor...");
-    await createScriptTag(session); // Burada çağır
     await shopify.registerWebhooks({ session });
     },
   },

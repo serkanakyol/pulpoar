@@ -11,8 +11,8 @@ export async function action({ request }) {
   };
 
   try {
-    console.log("ScriptTag resource:", admin.rest);
-    const response = await admin.rest.resources.ScriptTag.create({
+    console.log("ScriptTag resource:", admin.rest.ScriptTag);
+    const response = await admin.rest.ScriptTag.create({
       body: scriptTag,
     });
 

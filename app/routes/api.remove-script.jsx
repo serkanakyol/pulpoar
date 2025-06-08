@@ -1,10 +1,8 @@
 import { json } from "@remix-run/node";
 import { authenticate } from "../shopify.server";
-import { buildPulpoarScriptUrl } from "../utils/pulpoar";
 
 export async function action({ request }) {
   const { admin } = await authenticate.admin(request);
-  const scriptUrl = buildPulpoarScriptUrl();
 
   const query = `
     query {
@@ -24,7 +22,7 @@ export async function action({ request }) {
     const gqlResponse = await admin.graphql(query);
     const jsonResponse = await gqlResponse.json();
 
-    const scriptUrl = buildPulpoarScriptUrl();
+    const scriptUrl = process.env.PULPOAR_SCRIPT_BASE_URL || "";
 console.log(scriptUrl);
 console.log(jsonResponse.data.scriptTags.edges);
     const matchingTags = jsonResponse.data.scriptTags.edges.filter((edge) =>

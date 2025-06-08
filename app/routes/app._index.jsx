@@ -15,15 +15,13 @@ import {
 import { TitleBar, useAppBridge } from "@shopify/app-bridge-react";
 import { useLoaderData, useFetcher } from "@remix-run/react";
 import { authenticate } from "../shopify.server";
-import { buildPulpoarScriptUrl } from "../utils/pulpoar";
 
 export const loader = async ({ request }) => {
   const { admin } = await authenticate.admin(request);
-  const scriptUrl = buildPulpoarScriptUrl();
 
   const query = `
     query {
-      scriptTags(first: 10) {
+      scriptTags(first: 50) {
         edges {
           node {
             id
@@ -34,14 +32,20 @@ export const loader = async ({ request }) => {
     }
   `;
 
-  const response = await admin.graphql(query);
-  const result = await response.json();
+    const gqlResponse = await admin.graphql(query);
+    const jsonResponse = await gqlResponse.json();
 
-  const installed = result?.data?.scriptTags?.edges?.some(
-    (edge) => edge.node.src === scriptUrl
-  );
+    const scriptUrl = process.env.PULPOAR_SCRIPT_BASE_URL || "";
 
-  return json({ scriptTagInstalled: installed });
+    const matchingTags = jsonResponse.data.scriptTags.edges.filter((edge) =>
+      edge.node.src.startsWith(scriptUrl)
+    );
+
+    if(matchingTags)
+    {
+      const installed = true;
+      return json({ scriptTagInstalled: installed });
+    }
 };
 
 export const action = async ({ request }) => {
@@ -52,7 +56,7 @@ export const action = async ({ request }) => {
 export default function Index() {
 
   const [selected, setSelected] = useState(0);
-  const [installed, setInstalled] = useState(false);
+  const [installed, setInstalled] = useState(scriptTagInstalled);
   const [loading, setLoading] = useState(false);
   const [removing, setRemoving] = useState(false);
   const fetcher = useFetcher();

@@ -8,7 +8,6 @@ import {
   TextContainer,
   Card,
   Button,
-  BlockStack,
   Box,
   List,
   Link,
@@ -73,7 +72,7 @@ export default function Index() {
     ),
     1: (
       <Card sectioned>
-        <BlockStack gap="400">
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
           <Box padding="400" background="bg-surface" borderRadius="200">
             <Text as="h2" variant="headingMd">
               Script Kurulumu
@@ -81,7 +80,7 @@ export default function Index() {
             <Text>Script'i Storefront'a eklemek için aşağıdaki butonu tıklayın.</Text>
             <Button onClick={() => alert("Script yüklendi!")}>Install Script</Button>
           </Box>
-        </BlockStack>
+        </div>
       </Card>
     ),
     2: (

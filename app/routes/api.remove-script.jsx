@@ -22,7 +22,8 @@ export async function action({ request }) {
   try {
     const gqlResponse = await admin.graphql(query);
     const jsonResponse = await gqlResponse.json();
-
+console.log(scriptUrl);
+console.log(jsonResponse.data.scriptTags.edges);
     const existingTag = jsonResponse.data.scriptTags.edges.find((edge) =>
       edge.node.src === scriptUrl
     );

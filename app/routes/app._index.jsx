@@ -146,18 +146,18 @@ console.log(installed);
           )}
           {installed && (
             <Button
-              onClick={activateThemeSnippet}
-              loading={loading}
-            >
-              Activate on Theme
-            </Button>
-            <Button
               onClick={handleRemove}
               loading={loading}
             >
               Remove Script
             </Button>
           )}
+          <Button
+            onClick={activateThemeSnippet}
+            loading={loading}
+          >
+            Activate on Theme
+          </Button>
           </Box>
         </div>
       </Card>

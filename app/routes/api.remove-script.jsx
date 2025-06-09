@@ -24,11 +24,11 @@ export async function action({ request }) {
     const scriptUrl = process.env.PULPOAR_SCRIPT_BASE_URL || "";
 
     const matchingTags = jsonResponse.data.scriptTags.edges.filter((edge) =>
-      edge.node.src.includes('pulpoar-try-on.js')
+      edge.node.src.includes('pulpoar-try-on.min.js')
     );
 
     if (matchingTags.length === 0) {
-      return json({ success: false, message: "Script bulunamadı." }, { status: 404 });
+      return json({ success: false, message: "Script is not found." }, { status: 404 });
     }
 
     const deletionResults = [];
@@ -53,9 +53,9 @@ export async function action({ request }) {
         const deleteJson = await deleteResponse.json();
 
         if (deleteJson.data.scriptTagDelete.userErrors.length > 0) {
-          console.error("Silme hatası:", deleteJson.data.scriptTagDelete.userErrors);
+          console.error("Error:", deleteJson.data.scriptTagDelete.userErrors);
         } else {
-          console.log(`Silindi: ${tag.node.id}`);
+          console.log(`Removed: ${tag.node.id}`);
         }
     }
 
@@ -67,7 +67,6 @@ export async function action({ request }) {
     });
 
   } catch (error) {
-     console.error("Script silme hatası:", error);
      return json({ success: false, error: error.message }, { status: 500 });
   }
 }

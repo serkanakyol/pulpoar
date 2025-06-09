@@ -1,3 +1,3 @@
-name = "PulpoAR Try-On Embed"
+name = "PulpoAR Try-On"
 type = "theme_app_extension"
-handle = "pulpoar-tryon"
+handle = "pulpoar-try-on"

@@ -10,19 +10,22 @@ export async function action({ request }) {
   const mainTheme = themes.find((theme) => theme.role === "main");
   if (!mainTheme) throw new Error("No main theme found.");
 console.log(mainTheme);
+
   const fileKey = "sections/product-template.liquid";
-  const asset = await admin.rest.resources.Asset.get({
+  const snippetKey = "snippets/pulpoar-tryon.liquid";
+  const snippetCall = `{% render 'pulpoar-tryon' %}`;
+
+  const response = await admin.rest.Asset.all({
     session,
     theme_id: mainTheme.id,
-    asset: {
-      key: "snippets/pulpoar-tryon.liquid"
-    }
+    params: { asset: { key: fileKey } }
   });
-console.log(asset);
-  console.log("Liquid snippet bulundu:", asset);
 
-  if (asset?.value && !asset.value.includes(snippetCall)) {
-    const updatedAsset = new admin.rest.resources.Asset({ session });
+  const asset = response?.[0];
+  if (!asset || !asset.value) throw new Error("Dosya alınamadı");
+
+  if (!asset.value.includes(snippetCall)) {
+    const updatedAsset = new admin.rest.Asset({ session });
     updatedAsset.theme_id = mainTheme.id;
     updatedAsset.key = fileKey;
     updatedAsset.value = `${asset.value}\n${snippetCall}`;

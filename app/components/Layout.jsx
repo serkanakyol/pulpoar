@@ -7,7 +7,7 @@ export default function Layout({ children }) {
 
   const navItems = [
     { to: "/", label: "Ana Sayfa" },
-    { to: "/billing", label: "Abonelik" },
+    { to: "/api/billing", label: "Abonelik" },
   ];
 
   return (

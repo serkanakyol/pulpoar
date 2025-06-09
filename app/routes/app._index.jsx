@@ -15,7 +15,7 @@ import {
 import { TitleBar, useAppBridge } from "@shopify/app-bridge-react";
 import { useLoaderData, useFetcher } from "@remix-run/react";
 import { authenticate } from "../shopify.server";
-import ProductManagement from "../components/ProductManagement";
+import { ResourcePicker } from "@shopify/app-bridge/actions";
 
 export const loader = async ({ request }) => {
   const { admin } = await authenticate.admin(request);
@@ -60,13 +60,10 @@ export default function Index() {
   const [selected, setSelected] = useState(0);
   const [installed, setInstalled] = useState(scriptTagInstalled);
   const [loading, setLoading] = useState(false);
+  const [selectedProducts, setSelectedProducts] = useState([]);
+  const app = useAppBridge();
   const fetcher = useFetcher();
   const shopify = useAppBridge();
-
-  const handleProductSelect = (selection) => {
-    setSelectedProducts(selection);
-    console.log("Seçilen ürünler:", selection);
-  };
 
   const handleInstall = async () => {
     setLoading(true);
@@ -83,6 +80,45 @@ export default function Index() {
     if (data.success) setInstalled(false);
     setLoading(false);
   }
+
+  const openProductPicker = () => {
+    const picker = ResourcePicker.create(app, {
+      resourceType: ResourcePicker.ResourceType.Product,
+      options: {
+        showVariants: false,
+      },
+    });
+
+    picker.subscribe(ResourcePicker.Action.SELECT, async ({ selection }) => {
+      const formatted = selection.map((product) => ({
+        id: product.id,
+        title: product.title,
+      }));
+
+      // backend’e gönder
+      await fetch("/api/products/select", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ products: formatted }),
+      });
+
+      setSelectedProducts(formatted);
+      picker.unsubscribe();
+    });
+
+    picker.dispatch(ResourcePicker.Action.OPEN);
+  };
+
+
+  useEffect(() => {
+    // mount olduğunda seçilen ürünleri al
+    const fetchSelected = async () => {
+      const res = await fetch("/api/products-selected");
+      const data = await res.json();
+      setSelectedProducts(data.products);
+    };
+    fetchSelected();
+  }, []);
 
   const isLoading =
     ["loading", "submitting"].includes(fetcher.state) &&
@@ -125,8 +161,26 @@ export default function Index() {
       </Card>
     ),
     1: (
-    <Card sectioned>
-    </Card>
+  <Card sectioned>
+    <TextContainer spacing="tight">
+      <Button onClick={openProductPicker}>Choose Products</Button>
+    </TextContainer>
+    <Divider />
+    <ResourceList
+      resourceName={{ singular: 'product', plural: 'products' }}
+      items={selectedProducts}
+      renderItem={(item) => {
+        const { id, title } = item;
+        return (
+          <ResourceItem id={id} accessibilityLabel={`View details for ${title}`}>
+            <Text variant="bodyMd" fontWeight="bold" as="h3">
+              {title}
+            </Text>
+          </ResourceItem>
+        );
+      }}
+    />
+  </Card>
     ),
     2: (
       <Card sectioned>

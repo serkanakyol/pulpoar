@@ -10,7 +10,8 @@ import {
   Button,
   Box,
   List,
-  Link
+  Link,
+  Divider
 } from "@shopify/polaris";
 import { TitleBar, useAppBridge } from "@shopify/app-bridge-react";
 import { useLoaderData, useFetcher } from "@remix-run/react";

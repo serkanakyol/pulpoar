@@ -11,7 +11,9 @@ import {
   Box,
   List,
   Link,
-  Divider
+  Divider,
+  ResourceList,
+  ResourceItem
 } from "@shopify/polaris";
 import { TitleBar, useAppBridge } from "@shopify/app-bridge-react";
 import { useLoaderData, useFetcher } from "@remix-run/react";

@@ -42,7 +42,7 @@ export const loader = async ({ request }) => {
 console.log(scriptUrl);
 console.log(jsonResponse.data.scriptTags.edges);
     const matchingTags = jsonResponse.data.scriptTags.edges.filter((edge) =>
-      edge.node.src.includes('pulpoar-try-on')
+      edge.node.src.includes('pulpoar-try-on.js')
     );
 
     if(matchingTags)
@@ -73,14 +73,6 @@ console.log(installed);
   const handleInstall = async () => {
     setLoading(true);
     const res = await fetch("/api/install-script", { method: "POST" });
-    const data = await res.json();
-    setInstalled(data.success);
-    setLoading(false);
-  };
-
-  const activateThemeSnippet = async () => {
-    setLoading(true);
-    const res = await fetch("/api/activate-theme", { method: "POST" });
     const data = await res.json();
     setInstalled(data.success);
     setLoading(false);
@@ -152,12 +144,6 @@ console.log(installed);
               Remove Script
             </Button>
           )}
-          <Button
-            onClick={activateThemeSnippet}
-            loading={loading}
-          >
-            Activate on Theme
-          </Button>
           </Box>
         </div>
       </Card>

@@ -1,4 +1,3 @@
-import { AppBridgeProvider } from "./components/AppBridgeProvider";
 import {
   Links,
   Meta,
@@ -6,7 +5,7 @@ import {
   Scripts,
   ScrollRestoration,
 } from "@remix-run/react";
-
+import Layout from "./components/Layout";
 export default function App() {
 
     const config = {
@@ -29,9 +28,9 @@ export default function App() {
         <Links />
       </head>
       <body>
-        <AppBridgeProvider config={config}>
+        <Layout>
           <Outlet />
-        </AppBridgeProvider>
+        </Layout>
         <ScrollRestoration />
         <Scripts />
       </body>

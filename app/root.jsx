@@ -1,3 +1,4 @@
+import { AppBridgeProvider } from "./components/AppBridgeProvider";
 import {
   Links,
   Meta,
@@ -7,6 +8,13 @@ import {
 } from "@remix-run/react";
 
 export default function App() {
+
+    const config = {
+      apiKey: process.env.SHOPIFY_API_KEY,
+      host: new URLSearchParams(window.location.search).get('host'),
+      forceRedirect: true,
+    };
+
   return (
     <html>
       <head>
@@ -21,7 +29,9 @@ export default function App() {
         <Links />
       </head>
       <body>
-        <Outlet />
+        <AppBridgeProvider config={config}>
+          <Outlet />
+        </AppBridgeProvider>
         <ScrollRestoration />
         <Scripts />
       </body>

@@ -6,7 +6,7 @@ import {
   ScrollRestoration,
   useLoaderData
 } from "@remix-run/react";
-import { AppBridgeProvider } from "@shopify/app-bridge-react";
+import { Provider } from "@shopify/app-bridge-react";
 
 
 export default function App() {
@@ -25,11 +25,11 @@ export default function App() {
         <Links />
       </head>
       <body>
-          <AppBridgeProvider>
+          <Provider>
             <Outlet />
             <ScrollRestoration />
             <Scripts />
-          </AppBridgeProvider>
+          </Provider>
       </body>
     </html>
   );

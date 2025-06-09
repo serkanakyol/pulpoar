@@ -1,3 +1,5 @@
+import { prisma as db } from "../db.server";
+
 export async function action({ request }) {
   const { products } = await request.json();
 

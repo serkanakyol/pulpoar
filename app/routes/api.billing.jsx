@@ -1,7 +1,3 @@
-import { redirect } from "@remix-run/node";
-import { authenticate } from "../shopify.server";
-import { getSessionToken } from "@shopify/shopify-app-remix/server";
-
 export async function loader({ request }) {
   const { admin } = await authenticate.admin(request);
 
@@ -33,17 +29,19 @@ export async function loader({ request }) {
 
   const response = await admin.graphql(mutation);
   const body = await response.json();
-console.log(body);
-  const confirmationUrl =
-    body?.data?.appSubscriptionCreate?.confirmationUrl;
+
+  console.log("Shopify Subscription response:", JSON.stringify(body, null, 2));
+
+  const confirmationUrl = body?.data?.appSubscriptionCreate?.confirmationUrl;
 
   if (!confirmationUrl) {
-    throw new Error("Abonelik oluşturulamadı.");
+    throw new Error(
+      "Abonelik oluşturulamadı: " +
+        (body?.data?.appSubscriptionCreate?.userErrors
+          ?.map((err) => `${err.field}: ${err.message}`)
+          .join(", ") || "Bilinmeyen hata")
+    );
   }
 
   return redirect(confirmationUrl);
-}
-
-export default function BillingRedirect() {
-  return <p>Abonelik sayfasına yönlendiriliyorsunuz...</p>;
 }

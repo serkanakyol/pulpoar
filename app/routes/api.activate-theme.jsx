@@ -16,7 +16,7 @@ export async function action({ request }) {
     asset: { key: fileKey },
   });
 
-  const snippetCall = `{% render 'pulpoar-tryon-snippet' %}`;
+  const snippetCall = `{% render 'pulpoar-tryon' %}`;
 
   if (asset?.value && !asset.value.includes(snippetCall)) {
     const updatedAsset = new admin.rest.resources.Asset({ session });

@@ -1,4 +1,6 @@
+import prisma from "../db.server";
+
 export async function loader() {
-  const products = await db.selectedProduct.findMany();
+  const products = await prisma.selectedProduct.findMany();
   return json({ products });
 }

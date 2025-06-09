@@ -7,7 +7,6 @@ import {
   useLoaderData
 } from "@remix-run/react";
 import { AppBridgeProvider } from "@shopify/app-bridge-react";
-import { Provider as PolarisProvider } from "@shopify/polaris";
 
 export const loader = async ({ request }) => {
   const url = new URL(request.url);
@@ -43,13 +42,11 @@ export default function App() {
         />
       </head>
       <body>
-        <PolarisProvider i18n={translations}>
           <AppBridgeProvider config={config}>
             <Outlet />
             <ScrollRestoration />
             <Scripts />
           </AppBridgeProvider>
-        </PolarisProvider>
       </body>
     </html>
   );

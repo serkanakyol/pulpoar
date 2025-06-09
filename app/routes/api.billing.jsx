@@ -33,7 +33,7 @@ export async function loader({ request }) {
 
   const response = await admin.graphql(mutation);
   const body = await response.json();
-console.log(boy);
+console.log(body);
   const confirmationUrl =
     body?.data?.appSubscriptionCreate?.confirmationUrl;
 

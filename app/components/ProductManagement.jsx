@@ -7,8 +7,9 @@ import {
   Text,
   Button,
   Icon,
-  Stack,
   TextField,
+  HorizontalStack,
+  VerticalStack,
 } from "@shopify/polaris";
 import { SearchMinor, DeleteMinor, SettingsMinor } from "@shopify/polaris-icons";
 import { useState, useCallback } from "react";
@@ -36,45 +37,54 @@ export default function ProductManagement() {
   return (
     <>
       <Card sectioned>
-        <Stack alignment="center" distribution="equalSpacing">
-          <Text variant="headingLg" as="h2">
+        <HorizontalStack align="center" distribution="equalSpacing">
+          <Text as="h2" variant="headingLg">
             Selected products from catalog
           </Text>
           <Button primary onClick={() => setPickerOpen(true)}>
             Choose products
           </Button>
-        </Stack>
+        </HorizontalStack>
       </Card>
 
       <Card>
-        <TextField
-          placeholder="Search items"
-          value={searchTerm}
-          prefix={<Icon source={SearchMinor} />}
-          onChange={setSearchTerm}
-          autoComplete="off"
-        />
-        <ResourceList
-          resourceName={{ singular: "product", plural: "products" }}
-          items={products.filter((p) => p.title.toLowerCase().includes(searchTerm.toLowerCase()))}
-          renderItem={(item) => {
-            const { id, title, image } = item;
-            return (
-              <ResourceItem id={id}>
-                <Stack alignment="center">
-                  <Stack.Item fill>
-                    <Text variant="bodyMd" fontWeight="bold">
-                      {title}
-                    </Text>
-                  </Stack.Item>
-                  <Thumbnail source={image} alt={title} />
-                  <Icon source={DeleteMinor} color="critical" onClick={() => handleRemoveProduct(id)} />
-                  <Icon source={SettingsMinor} />
-                </Stack>
-              </ResourceItem>
-            );
-          }}
-        />
+        <VerticalStack spacing="tight">
+          <TextField
+            placeholder="Search items"
+            value={searchTerm}
+            prefix={<Icon source={SearchMinor} />}
+            onChange={setSearchTerm}
+            autoComplete="off"
+          />
+
+          <ResourceList
+            resourceName={{ singular: "product", plural: "products" }}
+            items={products.filter((p) =>
+              p.title.toLowerCase().includes(searchTerm.toLowerCase())
+            )}
+            renderItem={(item) => {
+              const { id, title, image } = item;
+              return (
+                <ResourceItem id={id} accessibilityLabel={`View details for ${title}`}>
+                  <HorizontalStack align="center">
+                    <HorizontalStack.Item fill>
+                      <Text variant="bodyMd" fontWeight="bold">
+                        {title}
+                      </Text>
+                    </HorizontalStack.Item>
+                    <Thumbnail source={image} alt={title} />
+                    <Icon
+                      source={DeleteMinor}
+                      color="critical"
+                      onClick={() => handleRemoveProduct(id)}
+                    />
+                    <Icon source={SettingsMinor} />
+                  </HorizontalStack>
+                </ResourceItem>
+              );
+            }}
+          />
+        </VerticalStack>
       </Card>
 
       <ResourcePicker

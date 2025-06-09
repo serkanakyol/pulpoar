@@ -1,9 +1,9 @@
 {% if block.settings.enable %}
   {% if template == 'product' %}
     <div
-      id="pulpoar-virtual-try-on-config"
-      data-project="{{ shop.name }}"
-      data-sku="{{ product.selected_or_first_available_variant.sku }}"
+      id="pulpoar-try-on-config"
+      data-project="{{ shop.myshopify_domain }}-vxcommerce-test"
+      data-variants='{{ product.variants | json }}'
     ></div>
   {% endif %}
 {% endif %}
@@ -16,7 +16,7 @@
     {
       "type": "checkbox",
       "id": "enable",
-      "label": "blocks.pulpoar-try-on.settings.enable.label",
+      "label": "blocks.pulpoar-vto.settings.enable.label",
       "default": true
     }
   ]

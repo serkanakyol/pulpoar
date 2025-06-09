@@ -69,9 +69,18 @@ export default function Index() {
   const shopify = useAppBridge();
 console.log(scriptTagInstalled);
 console.log(installed);
+
   const handleInstall = async () => {
     setLoading(true);
     const res = await fetch("/api/install-script", { method: "POST" });
+    const data = await res.json();
+    setInstalled(data.success);
+    setLoading(false);
+  };
+
+  const activateThemeSnippet = async () => {
+    setLoading(true);
+    const res = await fetch("/api/activate-theme", { method: "POST" });
     const data = await res.json();
     setInstalled(data.success);
     setLoading(false);
@@ -136,6 +145,12 @@ console.log(installed);
             </Button>
           )}
           {installed && (
+            <Button
+              onClick={activateThemeSnippet}
+              loading={loading}
+            >
+              Activate on Theme
+            </Button>
             <Button
               onClick={handleRemove}
               loading={loading}

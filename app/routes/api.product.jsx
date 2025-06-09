@@ -44,7 +44,7 @@ export const loader = async ({ request }) => {
     handle: node.handle,
     image: node.featuredImage?.url || null,
     variantId: node.variants.edges[0]?.node.id || null,
-    price: node.variants.edges[0]?.node.price.amount || null,
+    price: node.variants.edges[0]?.node.price || null,
   }));
 
   return json(products);

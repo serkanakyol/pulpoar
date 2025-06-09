@@ -39,7 +39,8 @@ export const loader = async ({ request }) => {
     const jsonResponse = await gqlResponse.json();
 
     const scriptUrl = process.env.PULPOAR_SCRIPT_BASE_URL || "";
-
+console.log(scriptUrl);
+console.log(jsonResponse.data.scriptTags.edges);
     const matchingTags = jsonResponse.data.scriptTags.edges.filter((edge) =>
       edge.node.src.includes('pulpoar-try-on')
     );
@@ -66,7 +67,8 @@ export default function Index() {
   const app = useAppBridge();
   const fetcher = useFetcher();
   const shopify = useAppBridge();
-
+console.log(scriptTagInstalled);
+console.log(installed);
   const handleInstall = async () => {
     setLoading(true);
     const res = await fetch("/api/install-script", { method: "POST" });

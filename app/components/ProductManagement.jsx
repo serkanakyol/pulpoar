@@ -1,4 +1,4 @@
-// components/ProductManagement.jsx
+// app/components/ProductManagement.jsx
 import {
   Card,
   ResourceList,
@@ -6,12 +6,10 @@ import {
   Thumbnail,
   Text,
   Button,
-  Icon,
   TextField,
   HorizontalStack,
   VerticalStack,
 } from "@shopify/polaris";
-import { SearchMinor, DeleteMinor, SettingsMinor } from "@shopify/polaris-icons";
 import { useState, useCallback } from "react";
 import { ResourcePicker } from "@shopify/app-bridge-react";
 
@@ -50,9 +48,8 @@ export default function ProductManagement() {
       <Card>
         <VerticalStack spacing="tight">
           <TextField
-            placeholder="Search items"
+            placeholder="Search products"
             value={searchTerm}
-            prefix={<Icon source={SearchMinor} />}
             onChange={setSearchTerm}
             autoComplete="off"
           />
@@ -73,12 +70,13 @@ export default function ProductManagement() {
                       </Text>
                     </HorizontalStack.Item>
                     <Thumbnail source={image} alt={title} />
-                    <Icon
-                      source={DeleteMinor}
-                      color="critical"
+                    <Button
+                      plain
+                      destructive
                       onClick={() => handleRemoveProduct(id)}
-                    />
-                    <Icon source={SettingsMinor} />
+                    >
+                      Remove
+                    </Button>
                   </HorizontalStack>
                 </ResourceItem>
               );

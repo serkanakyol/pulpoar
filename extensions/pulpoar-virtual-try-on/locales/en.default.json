@@ -1,7 +1,7 @@
 {
   "blocks": {
-    "pulpoar-try-on": {
-      "name": "Pulpoar Virtual Try-On",
+    "pulpoar-vto": {
+      "name": "Pulpoar Virtual TryOn",
       "settings": {
         "enable": {
           "label": "Activate Virtual Try On in your theme."

@@ -7,6 +7,7 @@ export const loader = async ({ request }) => {
   if (!session?.shop) {
        return unauthenticated.redirectToAuth({ request });
   }
+
  const query = `
     {
       products(first: 50) {

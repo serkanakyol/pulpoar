@@ -9,7 +9,7 @@ export async function loader({ request }) {
     mutation {
       appSubscriptionCreate(
         name: "PulpoAR Try-On Premium",
-        returnUrl: "${process.env.HOST}/billing/confirm",
+        returnUrl: "/api/billing/confirm",
         test: true,
         lineItems: [{
           plan: {

@@ -1,0 +1,24 @@
+{% if block.settings.enable %}
+  {% if template == 'product' %}
+    <div
+      id="pulpoar-virtual-try-on-config"
+      data-project="{{ shop.name }}"
+      data-sku="{{ product.selected_or_first_available_variant.sku }}"
+    ></div>
+  {% endif %}
+{% endif %}
+
+{% schema %}
+{
+  "name": "blocks.pulpoar-try-on.name",
+  "target": "body",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enable",
+      "label": "blocks.pulpoar-try-on.settings.enable.label",
+      "default": true
+    }
+  ]
+}
+{% endschema %}

@@ -1,6 +1,5 @@
 // app/components/AppBridgeProvider.jsx
 import { AppBridgeProvider as ShopifyAppBridgeProvider } from "@shopify/app-bridge-react";
-import { Redirect } from "@shopify/app-bridge/actions";
 import { useMemo } from "react";
 import { useLocation, useNavigate } from "@remix-run/react";
 

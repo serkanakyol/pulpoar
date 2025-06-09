@@ -1,5 +1,3 @@
-// app/routes/billing/confirm.jsx
-
 import { json } from "@remix-run/node";
 
 export async function loader() {

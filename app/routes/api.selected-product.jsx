@@ -1,26 +1,31 @@
-import { json } from "@remix-run/node";
-import { authenticate } from "../shopify.server";
-import prisma from "../db.server";
+import { useState } from "react";
+import { ResourcePicker } from "@shopify/app-bridge-react";
+import { Card, Page } from "@shopify/polaris";
 
-export const action = async ({ request }) => {
-  const { admin, session } = await authenticate.admin(request);
-  const { productIds } = await request.json();
+export default function SelectProducts() {
+  const [open, setOpen] = useState(true);
+  const [selectedProducts, setSelectedProducts] = useState([]);
 
-  if (!session?.shop) {
-       return unauthenticated.redirectToAuth({ request });
-  }
+  const handleSelection = (resources) => {
+    setOpen(false);
+    setSelectedProducts(resources.selection);
+    console.log("Selected Products:", resources.selection);
+    // Burada seçilen ürünleri DB'ye kaydetmek için API çağrısı yapabilirsin
+  };
 
-  await prisma.selectedProduct.deleteMany({
-    where: { shop: session.shop},
-  });
+  return (
+    <Page title="Ürün Seçimi">
+      <Card sectioned>
+        <p>Ürünleri seçmek için modal açılacaktır.</p>
+      </Card>
 
-  await Promise.all(
-    productIds.map((id) =>
-      prisma.selectedProduct.create({
-        data: { shop: session.shop, productId: id.toString() },
-      })
-    )
+      <ResourcePicker
+        resourceType="Product"
+        open={open}
+        onCancel={() => setOpen(false)}
+        onSelection={handleSelection}
+        showVariants={false}
+      />
+    </Page>
   );
-
-  return json({ success: true });
-};
+}

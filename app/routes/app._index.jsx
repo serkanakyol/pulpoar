@@ -126,7 +126,6 @@ export default function Index() {
     ),
     1: (
     <Card sectioned>
-      <ProductManagement  onSelect={handleProductSelect}/>
     </Card>
     ),
     2: (

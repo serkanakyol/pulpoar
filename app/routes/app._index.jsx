@@ -15,7 +15,7 @@ import {
 import { TitleBar, useAppBridge } from "@shopify/app-bridge-react";
 import { useLoaderData, useFetcher } from "@remix-run/react";
 import { authenticate } from "../shopify.server";
-import ProductSelector from "../components/ProductSelector";
+import ProductManagement from "../components/ProductManagement";
 
 export const loader = async ({ request }) => {
   const { admin } = await authenticate.admin(request);
@@ -121,7 +121,7 @@ export default function Index() {
     ),
     1: (
     <Card sectioned>
-      <ProductSelector />
+      <ProductManagement />
     </Card>
     ),
     2: (

@@ -5,11 +5,14 @@ import { getSessionToken } from "@shopify/shopify-app-remix/server";
 export async function loader({ request }) {
   const { admin } = await authenticate.admin(request);
 
+  const url = new URL(request.url);
+  const returnUrl = `${url.protocol}//${url.host}/api/confirm`;
+
   const mutation = `
     mutation {
       appSubscriptionCreate(
         name: "PulpoAR Try-On Premium",
-        returnUrl: "/api/confirm",
+        returnUrl: "${returnUrl}",
         test: true,
         lineItems: [{
           plan: {

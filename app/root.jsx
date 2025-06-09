@@ -8,12 +8,6 @@ import {
 import Layout from "./components/Layout";
 export default function App() {
 
-    const config = {
-      apiKey: process.env.SHOPIFY_API_KEY,
-      host: new URLSearchParams(window.location.search).get('host'),
-      forceRedirect: true,
-    };
-
   return (
     <html>
       <head>

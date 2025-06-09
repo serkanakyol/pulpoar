@@ -63,6 +63,11 @@ export default function Index() {
   const fetcher = useFetcher();
   const shopify = useAppBridge();
 
+  const handleProductSelect = (selection) => {
+    setSelectedProducts(selection);
+    console.log("Seçilen ürünler:", selection);
+  };
+
   const handleInstall = async () => {
     setLoading(true);
     const res = await fetch("/api/install-script", { method: "POST" });
@@ -121,7 +126,7 @@ export default function Index() {
     ),
     1: (
     <Card sectioned>
-      <ProductManagement />
+      <ProductManagement  onSelect={handleProductSelect}/>
     </Card>
     ),
     2: (

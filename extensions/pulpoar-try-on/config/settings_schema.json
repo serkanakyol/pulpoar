@@ -1,0 +1,13 @@
+[
+  {
+    "name": "PulpoAR Try-On",
+    "target": "head",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "enable_tryon",
+        "label": "Try-On özelliğini aktif et"
+      }
+    ]
+  }
+]

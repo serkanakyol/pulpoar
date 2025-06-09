@@ -4,9 +4,25 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLoaderData
 } from "@remix-run/react";
+import { AppBridgeProvider } from "@shopify/app-bridge-react";
+import { Provider as PolarisProvider } from "@shopify/polaris";
+
+export const loader = async ({ request }) => {
+  const url = new URL(request.url);
+  const host = url.searchParams.get("host");
+  return { host };
+};
 
 export default function App() {
+  const { host } = useLoaderData();
+
+  const config = {
+    apiKey: process.env.SHOPIFY_API_KEY,
+    host,
+    forceRedirect: true,
+  };
 
   return (
     <html>
@@ -20,11 +36,20 @@ export default function App() {
         />
         <Meta />
         <Links />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `window.__SHOPIFY_HOST__ = "${host}"`,
+          }}
+        />
       </head>
       <body>
-        <Outlet />
-        <ScrollRestoration />
-        <Scripts />
+        <PolarisProvider i18n={translations}>
+          <AppBridgeProvider config={config}>
+            <Outlet />
+            <ScrollRestoration />
+            <Scripts />
+          </AppBridgeProvider>
+        </PolarisProvider>
       </body>
     </html>
   );

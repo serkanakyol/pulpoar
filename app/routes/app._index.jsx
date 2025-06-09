@@ -18,7 +18,7 @@ import {
 import { TitleBar, useAppBridge } from "@shopify/app-bridge-react";
 import { useLoaderData, useFetcher } from "@remix-run/react";
 import { authenticate } from "../shopify.server";
-import { ResourcePicker } from "@shopify/app-bridge-react";
+import { ResourcePicker } from "@shopify/app-bridge/actions";
 
 export const loader = async ({ request }) => {
   const { admin } = await authenticate.admin(request);

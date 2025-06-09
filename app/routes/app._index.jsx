@@ -100,9 +100,19 @@ export default function Index() {
       panelID: "overview-content",
     },
     {
+      id: "product",
+      content: "Product Configuration",
+      panelID: "product-content",
+    },
+    {
       id: "setup",
       content: "Setup",
       panelID: "setup-content",
+    },
+    {
+      id: "faq",
+      content: "Faq",
+      panelID: "faq-content",
     },
     {
       id: "support",
@@ -121,10 +131,17 @@ export default function Index() {
     ),
     1: (
       <Card sectioned>
+        <TextContainer>
+          <p>Product Configuration</p>
+        </TextContainer>
+      </Card>
+    ),
+    2: (
+      <Card sectioned>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
           <Box padding="400" background="bg-surface" borderRadius="200">
-            <Text as="h2" variant="headingMd">
-              Component Installation
+            <Text as="h2" variant="headingSm">
+              Add or remove the Virtual Try-On button on your product pages by using the scripts below. Make sure your theme includes the required product form structure.
             </Text>
           {!installed && (
             <Button
@@ -149,6 +166,13 @@ export default function Index() {
     3: (
       <Card sectioned>
         <TextContainer>
+          <p>Faq</p>
+        </TextContainer>
+      </Card>
+    ),
+    4: (
+      <Card sectioned>
+        <TextContainer>
           <p>This is the support tab.</p>
         </TextContainer>
       </Card>
@@ -157,7 +181,6 @@ export default function Index() {
 
   return (
     <Page title="PulPoar DashBoard" fullWidth>
-      <TitleBar title="PulPoar DashBoard" />
       <Layout>
         <Layout.Section>
           <Tabs tabs={tabs} selected={selected} onSelect={handleTabChange}>

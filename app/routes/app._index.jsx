@@ -180,7 +180,7 @@ export default function Index() {
   };
 
   return (
-    <Page title="PulPoar DashBoard" fullWidth>
+    <Page fullWidth>
       <Layout>
         <Layout.Section>
           <Tabs tabs={tabs} selected={selected} onSelect={handleTabChange}>

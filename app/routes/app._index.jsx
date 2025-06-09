@@ -99,7 +99,7 @@ export default function Index() {
       }));
 
       // backend’e gönder
-      await fetch("/api/products/select", {
+      await fetch("/api/product-select", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ products: formatted }),
@@ -116,7 +116,7 @@ export default function Index() {
   useEffect(() => {
     // mount olduğunda seçilen ürünleri al
     const fetchSelected = async () => {
-      const res = await fetch("/api/products-selected");
+      const res = await fetch("/api/product-selected");
       const data = await res.json();
       setSelectedProducts(data.products);
     };

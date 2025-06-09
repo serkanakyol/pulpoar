@@ -23,9 +23,7 @@ export const loader = async ({ request }) => {
               edges {
                 node {
                   id
-                  price {
-                    amount
-                  }
+                  price
                 }
               }
             }

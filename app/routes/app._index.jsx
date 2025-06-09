@@ -48,8 +48,11 @@ console.log(jsonResponse.data.scriptTags.edges);
     if(matchingTags)
     {
       const installed = true;
-      return json({ scriptTagInstalled: installed });
+    } else {
+      const installed = false;
     }
+
+    return json({ scriptTagInstalled: installed });
 };
 
 export const action = async ({ request }) => {
@@ -67,8 +70,6 @@ export default function Index() {
   const app = useAppBridge();
   const fetcher = useFetcher();
   const shopify = useAppBridge();
-console.log(scriptTagInstalled);
-console.log(installed);
 
   const handleInstall = async () => {
     setLoading(true);

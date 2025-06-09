@@ -9,14 +9,17 @@ export async function action({ request }) {
   console.log(themes);
   const mainTheme = themes.find((theme) => theme.role === "main");
   if (!mainTheme) throw new Error("No main theme found.");
+console.log(mainTheme);
   const fileKey = "sections/product-template.liquid";
-  const asset = await admin.rest.resources.Asset.find({
+  const asset = await shopify.api.rest.Asset.get({
     session,
     theme_id: mainTheme.id,
-    asset: { key: fileKey },
+    asset: {
+      key: "snippets/pulpoar-tryon.liquid"
+    }
   });
-
-  const snippetCall = `{% render 'pulpoar-tryon' %}`;
+console.log(asset);
+  console.log("Liquid snippet bulundu:", asset);
 
   if (asset?.value && !asset.value.includes(snippetCall)) {
     const updatedAsset = new admin.rest.resources.Asset({ session });

@@ -1,4 +1,4 @@
-import { AppBridgeProvider } from '@shopify/app-bridge-react';
+import { AppBridgeProvider } from "./components/AppBridgeProvider";
 import {
   Links,
   Meta,

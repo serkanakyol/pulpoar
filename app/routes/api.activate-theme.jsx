@@ -5,6 +5,7 @@ import { useFetcher } from "@remix-run/react";
 export async function action({ request }) {
   const { session, admin } = await authenticate.admin(request);
   const themes = await admin.rest.resources.Theme.all({ session });
+  console.log(themes);
   const mainTheme = themes.find((theme) => theme.role === "main");
   if (!mainTheme) throw new Error("No main theme found.");
   const fileKey = "sections/product-template.liquid";

@@ -8,20 +8,8 @@ import {
 } from "@remix-run/react";
 import { AppBridgeProvider } from "@shopify/app-bridge-react";
 
-export const loader = async ({ request }) => {
-  const url = new URL(request.url);
-  const host = url.searchParams.get("host");
-  return { host };
-};
 
 export default function App() {
-  const { host } = useLoaderData();
-
-  const config = {
-    apiKey: process.env.SHOPIFY_API_KEY,
-    host,
-    forceRedirect: true,
-  };
 
   return (
     <html>
@@ -35,14 +23,9 @@ export default function App() {
         />
         <Meta />
         <Links />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `window.__SHOPIFY_HOST__ = "${host}"`,
-          }}
-        />
       </head>
       <body>
-          <AppBridgeProvider config={config}>
+          <AppBridgeProvider>
             <Outlet />
             <ScrollRestoration />
             <Scripts />

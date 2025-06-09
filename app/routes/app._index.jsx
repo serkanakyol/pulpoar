@@ -44,13 +44,10 @@ console.log(jsonResponse.data.scriptTags.edges);
     const matchingTags = jsonResponse.data.scriptTags.edges.filter((edge) =>
       edge.node.src.includes('pulpoar-try-on.js')
     );
-console.log('matchingTags: ', matchingTags);
-    const installed = false;
 
-    if(matchingTags)
-    {
-      installed = true;
-    }
+    console.log('matchingTags: ', matchingTags);
+
+    const installed = matchingTags.length > 0;
 
     return json({ scriptTagInstalled: installed });
 };

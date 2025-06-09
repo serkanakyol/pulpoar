@@ -11,7 +11,7 @@ export async function action({ request }) {
   if (!mainTheme) throw new Error("No main theme found.");
 console.log(mainTheme);
   const fileKey = "sections/product-template.liquid";
-  const asset = await shopify.api.rest.Asset.get({
+  const asset = await admin.rest.resources.Asset.get({
     session,
     theme_id: mainTheme.id,
     asset: {

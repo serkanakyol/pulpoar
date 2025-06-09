@@ -6,10 +6,28 @@ import {
   ScrollRestoration,
   useLoaderData
 } from "@remix-run/react";
-import { Provider } from "@shopify/app-bridge-react";
+import { Provider as AppBridgeProvider } from "@shopify/app-bridge-react";
+import { json } from "@remix-run/node";
 
+export async function loader({ request }) {
+  const url = new URL(request.url);
+  const host = url.searchParams.get("host");
+
+  return json({
+    host,
+    apiKey: process.env.SHOPIFY_API_KEY,
+  });
+}
 
 export default function App() {
+
+  const { host, apiKey } = useLoaderData();
+
+  const appBridgeConfig = {
+    apiKey,
+    host,
+    forceRedirect: true,
+  };
 
   return (
     <html>
@@ -25,11 +43,11 @@ export default function App() {
         <Links />
       </head>
       <body>
-          <Provider>
-            <Outlet />
-            <ScrollRestoration />
-            <Scripts />
-          </Provider>
+        <AppBridgeProvider config={appBridgeConfig}>
+          <Outlet />
+          <ScrollRestoration />
+          <Scripts />
+        </AppBridgeProvider>
       </body>
     </html>
   );

@@ -39,10 +39,9 @@ export const loader = async ({ request }) => {
     const jsonResponse = await gqlResponse.json();
 
     const scriptUrl = process.env.PULPOAR_SCRIPT_BASE_URL || "";
-console.log(scriptUrl);
-console.log(jsonResponse.data.scriptTags.edges);
+
     const matchingTags = jsonResponse.data.scriptTags.edges.filter((edge) =>
-      edge.node.src.includes('pulpoar-try-on.minjs')
+      edge.node.src.includes('pulpoar-try-on.min.js')
     );
 
     console.log('matchingTags: ', matchingTags);

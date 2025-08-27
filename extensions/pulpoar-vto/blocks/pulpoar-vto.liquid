@@ -1,0 +1,24 @@
+{% if block.settings.enable %}
+  {% if template == 'product' %}
+    <div
+      id="pulpoar-virtual-try-on-config"
+      data-project="{{ shop.name }}"
+      data-variants='{{ product.variants | json }}'
+    ></div>
+  {% endif %}
+{% endif %}
+
+{% schema %}
+{
+  "name": "Pulpoar Virtual TryOn",
+  "target": "body",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enable",
+      "label": "Activate Virtual Try On in your theme.",
+      "default": true
+    }
+  ]
+}
+{% endschema %}

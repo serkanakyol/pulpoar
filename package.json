@@ -34,6 +34,7 @@
     "@shopify/polaris": "^11.26.0",
     "@shopify/polaris-icons": "^9.3.1",
     "@shopify/shopify-app-remix": "^3.7.0",
+    "@shopify/shopify-app-session-storage-memory": "^4.0.20",
     "@shopify/shopify-app-session-storage-prisma": "^6.0.0",
     "isbot": "^5.1.0",
     "prisma": "^6.2.1",
